@@ -1,0 +1,8 @@
+*
+!libyaz0/src/libyaz0/**/*.c
+!libyaz0/**/*.h
+!scripts/**
+!src/**
+!binding.gyp
+!package.json
+*.node
