@@ -1,0 +1,11 @@
+{
+  "name": "yaz0",
+  "version": "0.1.0",
+  "description": "A Yaz0 compression/decompression module",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Maxime Bacoux",
+  "license": "MIT"
+}
