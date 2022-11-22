@@ -1,39 +1,36 @@
-const Yaz0StreamNode = require('./yaz0_node').Yaz0Stream;
-const { Transform } = require('stream');
+const Yaz0Stream = require('./stream');
 
-class Yaz0Stream extends Transform {
-  constructor(mode, size, level) {
-    super();
-    this._nativeStream = new Yaz0StreamNode(mode, size, level);
-    this._eof = false;
-  }
-
-  _transform(chunk, encoding, callback) {
-    if (this._eof) {
-      callback(new Error("Data after EOF"));
-    }
-
-    this._nativeStream.transform(chunk, encoding, (err, res) => {
-      if (err) {
-        callback(err);
-      } else if (res === null) {
-        this._eof = true;
-        callback(null, null);
-      } else if (res) {
-        this.push(res);
-      } else {
-        callback();
+const run = (compress, data, level) => {
+  return new Promise((resolve, reject) => {
+    let transform = null;
+    if (compress) {
+      if (level === undefined) {
+        level = 0;
       }
-    });
-  }
-
-  _flush(callback) {
-    if (!this._eof) {
-      callback(new Error("Abrupt end of file"));
+      transform = new Yaz0Stream(true, data.length, level);
     } else {
-      callback();
+      transform = new Yaz0Stream(false, 0, 0);
     }
-  }
-}
+    const chunks = [];
+    transform.on('data', (chunk) => {
+      chunks.push(chunk);
+    });
+    transform.on('error', (err) => {
+      reject(err);
+    });
+    transform.on('end', () => {
+      resolve(Buffer.concat(chunks));
+    });
+    transform.end(data);
+  });
+};
 
-module.exports = { Yaz0Stream };
+const compress = (data, level) => {
+  return run(true, data, level);
+};
+
+const decompress = (data) => {
+  return run(false, data);
+};
+
+module.exports = { compress, decompress };

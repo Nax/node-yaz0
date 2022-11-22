@@ -1,9 +1,4 @@
-import type { Transform } from 'stream';
+import type { Buffer } from 'buffer';
 
-declare type Yaz0Options = {
-  size: number;
-  level?: number;
-};
-
-export function createYaz0Stream(mode: 'compress', opts: Yaz0Options): Transform;
-export function createYaz0Stream(mode: 'decompress'): Transform;
+export function compress(data:Buffer, level?:number): Promise<Buffer>;
+export function decompress(data:Buffer): Promise<Buffer>;

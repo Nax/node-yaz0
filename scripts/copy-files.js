@@ -3,7 +3,8 @@ const fs = require('fs').promises;
 
 const run = async () => {
   const filename = 'yaz0_node.node';
-  await fs.copyFile(`build/Release/${filename}`, `src/node/${filename}`);
+  await fs.mkdir('dist/node', { recursive: true });
+  await fs.copyFile(`build/Release/${filename}`, `dist/node/${filename}`);
 };
 
 run();
