@@ -6,4 +6,5 @@
 !package.json
 !dist/**
 !src/node/yaz0_node.cc
+!src/index.d.ts
 *.node
