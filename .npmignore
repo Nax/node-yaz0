@@ -5,4 +5,5 @@
 !binding.gyp
 !package.json
 !dist/**
+!src/node/yaz0_node.cc
 *.node
