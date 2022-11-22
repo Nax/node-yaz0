@@ -4,5 +4,5 @@
 !scripts/**
 !binding.gyp
 !package.json
-!dist
+!dist/**
 *.node
