@@ -1,6 +1,6 @@
 const { Buffer } = require('buffer');
 const Yaz0Browser = require('../dist/browser');
-const Yaz0Node = require('../src/node');
+const Yaz0Node = require('../dist/node');
 
 test('Yaz0Browser compress and decompress correctly', async () => {
   const data0 = Buffer.from("TESTTESTTESTTESTTESTTESTTESTTESTTESTTEST");
