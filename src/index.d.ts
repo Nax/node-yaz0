@@ -1,4 +1,2 @@
-import type { Buffer } from 'buffer';
-
-export function compress(data:Buffer, level?:number): Promise<Buffer>;
-export function decompress(data:Buffer): Promise<Buffer>;
+export function compress(data: Uint8Array, level?: number): Promise<Uint8Array>;
+export function decompress(data: Uint8Array): Promise<Uint8Array>;

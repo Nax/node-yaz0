@@ -1,5 +1,5 @@
-const { Buffer } = require('buffer');
 const Yaz0 = require('./libyaz0')();
+const mergeChunks = require('../util/merge-chunks');
 
 const YAZ0_OK             =  0;
 const YAZ0_NEED_AVAIL_IN  =  1;
@@ -33,21 +33,24 @@ async function run(compress, data, level) {
       eof = true;
       break;
     case YAZ0_NEED_AVAIL_IN:
-      return Promise.reject(new Error("Yaz0: Unexpected EOF"));
+      throw new Error("Yaz0: Unexpected EOF");
     case YAZ0_NEED_AVAIL_OUT:
-      chunks.push(Buffer.from(Yaz0.HEAPU8.subarray(outBuf, outBuf + Yaz0._yaz0OutputChunkSize(stream))));
+      const newChunkSize = Yaz0._yaz0OutputChunkSize(stream);
+      const newChunk = Yaz0.HEAPU8.slice(outBuf, outBuf + newChunkSize);
+      chunks.push(newChunk);
       Yaz0._yaz0Output(stream, outBuf, OUTPUT_BUFFER_SIZE);
       break;
     }
   }
   const lastChunkSize = Yaz0._yaz0OutputChunkSize(stream);
   if (lastChunkSize > 0) {
-    chunks.push(Buffer.from(Yaz0.HEAPU8.subarray(outBuf, outBuf + lastChunkSize)));
+    chunks.push(Yaz0.HEAPU8.subarray(outBuf, outBuf + lastChunkSize));
   }
+  const merged = mergeChunks(chunks);
   Yaz0._free(inBuf);
   Yaz0._free(outBuf);
   Yaz0._yaz0Destroy(stream);
-  return Promise.resolve(Buffer.concat(chunks));
+  return merged;
 };
 
 const compress = (data, level) => {

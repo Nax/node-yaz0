@@ -1,6 +1,7 @@
 #!/bin/sh
 
 mkdir -p dist/browser
+mkdir -p dist/util
 
 emcc -Ilibyaz0/include -Oz --closure 2 \
   -sENVIRONMENT=web \
@@ -19,3 +20,4 @@ emcc -Ilibyaz0/include -Oz --closure 2 \
 
 ./node_modules/.bin/rollup --format cjs --config ./rollup.config.js ./src/browser/index.js --file dist/browser/index.js
 cp -r src/node/*.js dist/node/
+cp -r src/util/*.js dist/util/

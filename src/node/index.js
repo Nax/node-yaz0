@@ -1,6 +1,7 @@
 const Yaz0Stream = require('./stream');
+const mergeChunks = require('../util/merge-chunks');
 
-const run = (compress, data, level) => {
+function run(compress, data, level) {
   return new Promise((resolve, reject) => {
     let transform = null;
     if (compress) {
@@ -19,7 +20,7 @@ const run = (compress, data, level) => {
       reject(err);
     });
     transform.on('end', () => {
-      resolve(Buffer.concat(chunks));
+      resolve(mergeChunks(chunks));
     });
     transform.end(data);
   });
