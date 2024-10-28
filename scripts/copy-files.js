@@ -1,3 +1,4 @@
+'use strict';
 
 const fs = require('fs').promises;
 
@@ -7,4 +8,7 @@ const run = async () => {
   await fs.copyFile(`build/Release/${filename}`, `dist/node/${filename}`);
 };
 
-run();
+run().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

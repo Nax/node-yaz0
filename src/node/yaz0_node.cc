@@ -12,13 +12,13 @@ Napi::FunctionReference constructor;
 class Yaz0StreamWorker : public Napi::AsyncProgressQueueWorker<char>
 {
 public:
-    Yaz0StreamWorker(Napi::Function& callback, Yaz0Stream* stream, Napi::Buffer<uint8_t>& input)
+    Yaz0StreamWorker(Napi::Function& callback, Yaz0Stream* stream, Napi::Uint8Array& input)
     : Napi::AsyncProgressQueueWorker<char>(callback)
     , _stream{stream}
     , _input(input.Data())
-    , _inputSize(input.Length())
+    , _inputSize(input.ByteLength())
     , _eof{false}
-    , _inputRef{Napi::Reference<Napi::Buffer<uint8_t>>::New(input)}
+    , _inputRef{Napi::Reference<Napi::Uint8Array>::New(input)}
     {
     }
 
@@ -66,7 +66,8 @@ public:
         Napi::Env env = Env();
         Napi::HandleScope scope(env);
 
-        Napi::Buffer<uint8_t> buffer = Napi::Buffer<uint8_t>::Copy(env, reinterpret_cast<const uint8_t*>(data), size);
+        Napi::Uint8Array buffer = Napi::Uint8Array::New(env, size);
+        memcpy(buffer.Data(), data, size);
         Callback().Call({env.Null(), buffer});
     }
 
@@ -84,7 +85,7 @@ private:
     size_t      _inputSize;
     bool        _eof;
 
-    Napi::Reference<Napi::Buffer<uint8_t>>  _inputRef;
+    Napi::Reference<Napi::Uint8Array>  _inputRef;
 };
 
 class Yaz0StreamWrapper : public Napi::ObjectWrap<Yaz0StreamWrapper>
@@ -148,7 +149,7 @@ public:
             return env.Null();
         }
 
-        Napi::Buffer<uint8_t> input = info[0].As<Napi::Buffer<uint8_t>>();
+        Napi::Uint8Array input = info[0].As<Napi::Uint8Array>();
         Napi::Function callback = info[2].As<Napi::Function>();
 
         Yaz0StreamWorker* worker = new Yaz0StreamWorker(callback, _stream, input);
