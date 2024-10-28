@@ -2,3 +2,4 @@
 /build
 /dist
 *.node
+/src/browser/libyaz0.js

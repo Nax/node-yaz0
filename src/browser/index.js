@@ -1,5 +1,5 @@
 const { Buffer } = require('buffer');
-const Yaz0 = require('./libyaz0');
+const Yaz0Factory = require('./libyaz0');
 
 const YAZ0_OK             =  0;
 const YAZ0_NEED_AVAIL_IN  =  1;
@@ -9,7 +9,10 @@ const YAZ0_OUT_OF_MEMORY  = -2;
 
 const OUTPUT_BUFFER_SIZE  =  0x1000;
 
-const run = (compress, data, level) => {
+const Yaz0Promise = Yaz0Factory();
+
+async function run(compress, data, level) {
+  const Yaz0 = await Yaz0Promise;
   const stream = Yaz0._emYaz0Init();
   if (compress) {
     if (level === undefined) {
