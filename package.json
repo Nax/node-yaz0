@@ -1,6 +1,6 @@
 {
   "name": "yaz0",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "A fast Yaz0 compression/decompression module",
   "main": "lib/node/index.js",
   "type": "module",
