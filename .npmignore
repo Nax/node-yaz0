@@ -1,10 +1,8 @@
 *
+!lib/**
 !libyaz0/src/libyaz0/**/*.c
 !libyaz0/**/*.h
-!scripts/**
 !binding.gyp
 !package.json
-!dist/**
 !src/node/yaz0_node.cc
-!src/index.d.ts
 *.node

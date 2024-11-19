@@ -1,5 +1,4 @@
 /node_modules
 /build
-/dist
-*.node
-/src/browser/libyaz0.js
+/lib/browser/libyaz0.js
+/lib/browser/libyaz0.wasm
