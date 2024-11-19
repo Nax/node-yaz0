@@ -1,25 +1,19 @@
 {
   "name": "yaz0",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "A fast Yaz0 compression/decompression module",
-  "main": "dist/node/index.js",
-  "browser": "dist/browser/index.js",
-  "types": "src/index.d.ts",
+  "main": "lib/node/index.mjs",
+  "type": "module",
+  "browser": "lib/browser/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "postinstall": "node scripts/copy-files.js",
-    "test": "jest"
+    "build": "./build.sh",
+    "test": "node --test"
   },
   "author": "Maxime Bacoux",
   "license": "MIT",
   "dependencies": {
     "node-addon-api": "*",
     "node-gyp": "^10.2.0"
-  },
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^28.0.1",
-    "@rollup/plugin-node-resolve": "^15.3.0",
-    "@rollup/plugin-terser": "^0.4.4",
-    "jest": "^29.7.0",
-    "rollup": "^4.24.2"
   }
 }
