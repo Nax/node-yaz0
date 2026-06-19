@@ -1,6 +1,6 @@
 {
   "name": "yaz0",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "A fast Yaz0 compression/decompression module",
   "main": "lib/node/index.js",
   "type": "module",
@@ -8,6 +8,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "./build.sh",
+    "install": "node-gyp rebuild",
     "test": "node --test"
   },
   "author": "Maxime Bacoux",
